@@ -1,18 +1,20 @@
-const isEqualArrayWithoutOrder = (a1: string, a2: string) => {
-  if (a1.length !== a2.length) return false;
+const isEqualArrayWithoutOrder = <T>(a: T[], b: T[]): boolean => {
+  const removeByIndex = <T>(index: number, array: T[]) =>
+    array.filter((_, i) => i !== index);
 
-  const length = a1.map((e) => {
-    console.log(`cur ${e}`);
-    const num = a2.indexOf(e);
-    console.log(`num ${num}`);
-    if (num !== -1) {
-      return e;
-    }
-  });
+  const [remainA, remainB] = a.reduce<[T[], T[]]>(
+    ([accA, accB], xa) => {
+      const indexB = accB.indexOf(xa);
+      if (indexB === -1) {
+        return [[...accA, xa], accB];
+      }
 
-  console.log(`length ${length}`);
+      return [accA, removeByIndex(indexB, accB)];
+    },
+    [[], b]
+  );
 
-  return length.length === a1.length;
+  return remainA.length === 0 && remainB.length === 0;
 };
 
-console.log(`isEqualArrayWithoutOrder ${isEqualArrayWithoutOrder([0,0,0],[0,1,2])}`);
+console.log(isEqualArrayWithoutOrder<number>([1,2,3],[3,2,1]))
