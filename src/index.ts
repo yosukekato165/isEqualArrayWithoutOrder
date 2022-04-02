@@ -1,19 +1,18 @@
-const isEqualArrayWithoutOrder = (s1: string, s2: string) => {
-  const arrS1 = s1.split("");
-  const arrS2 = s2.split("");
+const isEqualArrayWithoutOrder = (a1: string, a2: string) => {
+  if (a1.length !== a2.length) return false;
 
-  if (arrS1.length !== arrS2.length) return false;
-
-  const comparedArray = [...arrS2];
-
-  for (let i in arrS1) {
-    const num = comparedArray.indexOf(arrS1[i]);
+  const length = a1.map((e) => {
+    console.log(`cur ${e}`);
+    const num = a2.indexOf(e);
+    console.log(`num ${num}`);
     if (num !== -1) {
-      comparedArray.splice(num, 1);
+      return e;
     }
-  }
+  });
 
-  return comparedArray.length === 0;
+  console.log(`length ${length}`);
+
+  return length.length === a1.length;
 };
 
-console.log(isEqualArrayWithoutOrder("123", "112"));
+console.log(`isEqualArrayWithoutOrder ${isEqualArrayWithoutOrder([0,0,0],[0,1,2])}`);
